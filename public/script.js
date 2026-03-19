@@ -2,7 +2,7 @@ async function saveText() {
 
   const text = document.getElementById("text").value;
 
-  const response = await fetch("http://localhost:3000/save", {
+  const response = await fetch("/api/save", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -17,13 +17,11 @@ async function saveText() {
 
 async function readFile() {
 
-  const res = await fetch("http://localhost:3000/read");
+  const res = await fetch("/api/read");
   const data = await res.json();
 
   document.getElementById("output").textContent = data.content;
 }
-
-
 
 async function uploadFile() {
 
@@ -37,12 +35,13 @@ async function uploadFile() {
   const formData = new FormData();
   formData.append("file", fileInput.files[0]);
 
-  const response = await fetch("http://localhost:3000/upload", {
+  const response = await fetch("/api/upload", {
     method: "POST",
     body: formData
   });
 
   const data = await response.json();
 
-  document.getElementById("output").textContent = data.content;
+  document.getElementById("output").textContent =
+    data.content || data.message;
 }
